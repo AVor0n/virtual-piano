@@ -2,6 +2,12 @@ const piano = document.querySelector(`.piano`);
 const pianoKeys = document.querySelectorAll(`.piano-key`);
 const btnContainer = document.querySelector(`.btn-container`);
 const buttons = document.querySelectorAll(`.btn`)
+const SOUNDS = {
+    KeyD: `c.mp3`, KeyF: `d.mp3`, KeyG: `e.mp3`,
+    KeyH: `f.mp3`, KeyJ: `g.mp3`, KeyK: `a.mp3`,
+    KeyL: `b.mp3`, KeyR: `c♯.mp3`, KeyT: `d♯.mp3`,
+    KeyU: `f♯.mp3`,KeyI: `g♯.mp3`, KeyO: `a♯.mp3`,
+};
 
 //!--------------Toggle button handler-----------------------------------//
 
@@ -22,3 +28,32 @@ document.querySelector(`.fullscreen`).addEventListener(`click`, () => {
         document.exitFullscreen();
     }
 })
+
+//!-----------------Keyboard handler-----------------------------------//
+
+window.addEventListener(`keydown`, e => {
+    if (!e.repeat) {
+        pianoKeyPress(e.code);
+        pianoKeyPlaySound(e.code);
+    }
+});
+
+function pianoKeyPress(code) {
+    const pressedKey = document.querySelector(`.piano-key[data-code=${code}]`);
+    pressedKey?.classList.add(`piano-key-active`);
+}
+
+function pianoKeyPlaySound(code) {
+    if (code in SOUNDS) {
+        new Audio('assets/audio/' + SOUNDS[code]).play();
+    }
+}
+
+window.addEventListener(`keyup`, e => {
+    pianoKeyRelease(e.code)
+});
+
+function pianoKeyRelease(code) {
+    const pressedKey = document.querySelector(`.piano-key[data-code=${code}]`);
+    pressedKey?.classList.remove(`piano-key-active`);
+}
