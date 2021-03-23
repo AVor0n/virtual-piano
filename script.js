@@ -12,3 +12,13 @@ btnContainer.addEventListener(`click`, (e) => {
     buttons.forEach(btn => btn.classList.toggle(`btn-active`));
     pianoKeys.forEach(pianoKey => pianoKey.classList.toggle(`piano-key-letter`));
 })
+
+//!-----------------Fullscreen mode------------------------------------//
+
+document.querySelector(`.fullscreen`).addEventListener(`click`, () => {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+})
