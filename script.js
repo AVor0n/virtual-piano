@@ -57,3 +57,40 @@ function pianoKeyRelease(code) {
     const pressedKey = document.querySelector(`.piano-key[data-code=${code}]`);
     pressedKey?.classList.remove(`piano-key-active`);
 }
+
+//!----------------Mouse click handler---------------------------------//
+
+piano.addEventListener(`mousedown`, addPianoKeyResponse);
+
+function addPianoKeyResponse(e) {
+    pianoKeyResponse(e)
+    pianoKeys.forEach(key => {
+        key.addEventListener(`mouseover`, pianoKeyResponse)
+        key.addEventListener(`mouseout`, pianoKeyLeave)
+    })
+}
+
+function pianoKeyResponse(e) {
+    if (e.target.classList.contains(`piano-key`)) {
+        const code = e.target.dataset.code;
+        pianoKeyPress(code);
+        pianoKeyPlaySound(code);
+    }
+}
+
+function pianoKeyLeave(e) {
+    if (e.target.classList.contains(`piano-key`)) {
+        const code = e.target.dataset.code;
+        pianoKeyRelease(code);
+    }
+}
+
+window.addEventListener(`mouseup`, removePianoKeyResponse);
+
+function removePianoKeyResponse(e) {
+    pianoKeyLeave(e);
+    pianoKeys.forEach(key => {
+        key.removeEventListener(`mouseover`, pianoKeyResponse)
+        key.removeEventListener(`mouseout`, pianoKeyLeave)
+    })
+}
